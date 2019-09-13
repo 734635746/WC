@@ -2,6 +2,8 @@ package com.lyb.processor;
 
 import com.lyb.bean.result;
 
+import java.io.IOException;
+
 /**
  * @author liuyoubin
  * @date 2019/9/13 - 11:53
@@ -14,6 +16,6 @@ public interface FileProcessor {
      * @param file 文件全路径名
      * @return 放回结果
      */
-    result disposeFileOf(String fileUrl);
+    result disposeFileOf(String fileUrl) throws IOException;
 
 }

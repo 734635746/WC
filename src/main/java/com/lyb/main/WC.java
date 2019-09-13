@@ -1,5 +1,11 @@
 package com.lyb.main;
 
+import com.lyb.Factory.FileProcessorFactory;
+import com.lyb.bean.FileResult;
+import com.lyb.processor.FileProcessor;
+
+import java.io.IOException;
+
 /**
  * 统计程序的入口
  * @author liuyoubin
@@ -13,8 +19,13 @@ public class WC {
 
 
         }else{//不是递归处理，证明只有一个参数 支持 -c -w -l -a
+            FileProcessor processor = FileProcessorFactory.getFileProcessorOf(args[0]);
+            try {
+                FileResult result = (FileResult)processor.disposeFileOf(args[1]);
 
-
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

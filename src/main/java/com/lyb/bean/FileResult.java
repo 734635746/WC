@@ -1,5 +1,6 @@
 package com.lyb.bean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,10 +10,14 @@ import java.util.List;
  */
 public class FileResult implements result{
     //文件全路径名称
-    String fileName;
+    private String fileName;
     //文件处理集合
-    List<String> result;
+    private List<String> result = new ArrayList<>();
 
+    public FileResult addResult(String fileName, Integer resultNum){
+        this.result.add(fileName+" "+resultNum);
+        return this;
+    }
 
     public String getFileName() {
         return fileName;
@@ -28,5 +33,13 @@ public class FileResult implements result{
 
     public void setResult(List<String> result) {
         this.result = result;
+    }
+
+    @Override
+    public String toString() {
+        return "FileResult{" +
+                "fileName='" + fileName + '\'' +
+                ", result=" + result +
+                '}';
     }
 }

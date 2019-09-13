@@ -1,7 +1,9 @@
 package com.lyb.Factory;
 
 import com.lyb.processor.FileProcessor;
+import com.lyb.processor.LineProcessor;
 import com.lyb.processor.NumberOfCharProcessor;
+import com.lyb.processor.WordProcessor;
 
 /**
  * @author liuyoubin
@@ -16,6 +18,8 @@ public class FileProcessorFactory {
 
         switch (param){
             case "-c":return new NumberOfCharProcessor();
+            case "-l":return new LineProcessor();
+            case "-w":return new WordProcessor();
         }
         return null;
     }
