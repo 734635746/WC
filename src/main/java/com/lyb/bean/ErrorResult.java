@@ -35,4 +35,9 @@ public class ErrorResult implements result{
     public void showResult() {
         System.out.println(message);
     }
+
+    @Override
+    public String printfResult() {
+        return message;
+    }
 }

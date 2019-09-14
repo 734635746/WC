@@ -18,8 +18,9 @@ public class FileProcessorFactory {
             case "-l":return new LineProcessor();
             case "-w":return new WordProcessor();
             case "-a":return  new ComplexProcessor();
+            default:return null;
         }
-        return null;
+
     }
 
 }

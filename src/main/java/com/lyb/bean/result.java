@@ -10,4 +10,7 @@ public interface result {
     //显示处理结果
     void showResult();
 
+    //输出结果
+    String printfResult();
+
 }

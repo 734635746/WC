@@ -1,7 +1,14 @@
-F:\idea-workspace\WC\src\main\java\com\lyb\Factory\FileProcessorFactory.java
-F:\idea-workspace\WC\src\main\java\com\lyb\bean\result.java
 F:\idea-workspace\WC\src\main\java\com\lyb\processor\NumberOfCharProcessor.java
 F:\idea-workspace\WC\src\main\java\com\lyb\bean\FileResult.java
 F:\idea-workspace\WC\src\main\java\com\lyb\main\WC.java
 F:\idea-workspace\WC\src\main\java\com\lyb\processor\FileProcessor.java
+F:\idea-workspace\WC\src\main\java\com\lyb\util\FileUtils.java
+F:\idea-workspace\WC\src\main\java\com\lyb\processor\WordProcessor.java
+F:\idea-workspace\WC\src\main\java\com\lyb\window.java
+F:\idea-workspace\WC\src\main\java\com\lyb\processor\LineProcessor.java
+F:\idea-workspace\WC\src\main\java\com\lyb\processor\RecursiveProcessor.java
+F:\idea-workspace\WC\src\main\java\com\lyb\Factory\FileProcessorFactory.java
+F:\idea-workspace\WC\src\main\java\com\lyb\bean\result.java
+F:\idea-workspace\WC\src\main\java\com\lyb\processor\ComplexProcessor.java
+F:\idea-workspace\WC\src\main\java\com\lyb\enums\ErrorTypeEnum.java
 F:\idea-workspace\WC\src\main\java\com\lyb\bean\ErrorResult.java

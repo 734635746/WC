@@ -50,4 +50,13 @@ public class FileResult implements result{
             System.out.println(s);
         }
     }
+
+    @Override
+    public String printfResult() {
+        StringBuffer buffer = new StringBuffer();
+        for (String s : result) {
+            buffer.append(s+"\r\n");
+        }
+        return buffer.toString();
+    }
 }
