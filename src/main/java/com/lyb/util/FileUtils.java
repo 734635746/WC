@@ -70,12 +70,12 @@ public class FileUtils {
      * @return
      */
     public static String StrToRegex(String regFileName){
-        regFileName = regFileName.replace(".", "#");
-        regFileName = regFileName.replaceAll("#", "\\.");
-        regFileName = regFileName.replace("*", "#");
-        regFileName = regFileName.replaceAll("#", ".*");
-        regFileName = regFileName.replace("?", "#");
-        regFileName = regFileName.replaceAll("#", ".?");
+        regFileName = regFileName.replace(".", ">");
+        regFileName = regFileName.replaceAll(">", "\\.");
+        regFileName = regFileName.replace("*", ">");
+        regFileName = regFileName.replaceAll(">", ".*");
+        regFileName = regFileName.replace("?", ">");
+        regFileName = regFileName.replaceAll(">", ".?");
         return regFileName;
     }
 }
