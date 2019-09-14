@@ -1,10 +1,12 @@
 package com.lyb.main;
 
 import com.lyb.Factory.FileProcessorFactory;
-import com.lyb.bean.FileResult;
+import com.lyb.bean.result;
 import com.lyb.processor.FileProcessor;
+import com.lyb.processor.RecursiveProcessor;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * 统计程序的入口
@@ -16,13 +18,24 @@ public class WC {
     public static void main(String[] args) {
 
         if(args[0].equals("-s")){//判断是否递归处理
+            //获取相应的文件处理对象
+            FileProcessor processor = FileProcessorFactory.getFileProcessorOf(args[1]);
+            //递归处理对象
+            RecursiveProcessor recursiveProcessor = new RecursiveProcessor(processor, args[2]);
+            //获取处理的结果集
+            try {
 
+                List<result> resultList = recursiveProcessor.getDisposeResult();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
         }else{//不是递归处理，证明只有一个参数 支持 -c -w -l -a
             FileProcessor processor = FileProcessorFactory.getFileProcessorOf(args[0]);
             try {
-                FileResult result = (FileResult)processor.disposeFileOf(args[1]);
-
+                result result = processor.disposeFileOf(args[1]);
+                result.showResult();
             } catch (IOException e) {
                 e.printStackTrace();
             }

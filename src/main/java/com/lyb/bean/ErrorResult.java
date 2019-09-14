@@ -31,4 +31,8 @@ public class ErrorResult implements result{
     }
 
 
+    @Override
+    public void showResult() {
+        System.out.println(message);
+    }
 }

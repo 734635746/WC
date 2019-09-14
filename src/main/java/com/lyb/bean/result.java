@@ -7,4 +7,7 @@ package com.lyb.bean;
  */
 public interface result {
 
+    //显示处理结果
+    void showResult();
+
 }

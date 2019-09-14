@@ -42,4 +42,12 @@ public class FileResult implements result{
                 ", result=" + result +
                 '}';
     }
+
+    @Override
+    public void showResult() {
+        System.out.println(fileName);
+        for (String s : result) {
+            System.out.println(s);
+        }
+    }
 }

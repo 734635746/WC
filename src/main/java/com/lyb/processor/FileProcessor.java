@@ -13,7 +13,7 @@ public interface FileProcessor {
 
     /**
      * 对指定文件(全路径名)进行相应的处理，并放回处理结果
-     * @param file 文件全路径名
+     * @param fileUrl 文件全路径名
      * @return 放回结果
      */
     result disposeFileOf(String fileUrl) throws IOException;

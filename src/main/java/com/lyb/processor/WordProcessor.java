@@ -16,6 +16,11 @@ import java.util.regex.Pattern;
  */
 public class WordProcessor implements FileProcessor{
 
+    /**
+     * 实现"-w"操作,统计文件中的单词数
+     * @param fileUrl 文件全路径名
+     * @return 处理结果
+     */
     @Override
     public result disposeFileOf(String fileUrl) throws IOException {
         if(fileUrl==null){//参数错误

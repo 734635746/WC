@@ -14,9 +14,9 @@ import java.io.*;
  */
 public class NumberOfCharProcessor implements FileProcessor{
     /**
-     * 统计文件的字符数
+     * 实现"-c"操作,统计文件的字符数
      * @param fileUrl 文件全路径名
-     * @return
+     * @return 处理结果
      */
     @Override
     public result disposeFileOf(String fileUrl) throws IOException {

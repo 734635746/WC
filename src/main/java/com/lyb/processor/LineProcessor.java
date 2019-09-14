@@ -13,6 +13,12 @@ import java.io.*;
  * 统计文件的行数
  */
 public class LineProcessor implements  FileProcessor{
+
+    /**
+     * 实现"-l"操作,统计文件的行数
+     * @param fileUrl 文件全路径名
+     * @return 处理结果
+     */
     @Override
     public result disposeFileOf(String fileUrl) throws IOException {
         if(fileUrl==null){//参数错误
