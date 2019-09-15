@@ -22,7 +22,7 @@ public class window {
     private JLabel lable2;
 
 
-    public window() {
+    private window() {
         button1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -33,12 +33,13 @@ public class window {
                 //要执行的操作
                 String[] operates = new String[]{"-l","-c","-w","-a"};
                 //要输出到界面的内容
-                StringBuffer printfStr = new StringBuffer(filepath+"\r\n");
+                StringBuilder printfStr = new StringBuilder(filepath+"\r\n");
                 try {
 
                     for (String operate : operates) {
                         //获取对应的操作处理类
                         FileProcessor processor = FileProcessorFactory.getFileProcessorOf(operate);
+                        assert processor != null;
                         result result = processor.disposeFileOf(filepath);
                         printfStr.append(result.printfResult());
                     }
@@ -51,7 +52,7 @@ public class window {
         });
     }
 
-    public static void main(String[] args) {
+    public static void main() {
         JFrame frame = new JFrame("统计程序！");
         frame.setLayout(null);
         frame.setSize(650, 500);

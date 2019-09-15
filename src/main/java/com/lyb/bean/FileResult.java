@@ -19,28 +19,8 @@ public class FileResult implements result{
         return this;
     }
 
-    public String getFileName() {
-        return fileName;
-    }
-
     public void setFileName(String fileName) {
         this.fileName = fileName;
-    }
-
-    public List<String> getResult() {
-        return result;
-    }
-
-    public void setResult(List<String> result) {
-        this.result = result;
-    }
-
-    @Override
-    public String toString() {
-        return "FileResult{" +
-                "fileName='" + fileName + '\'' +
-                ", result=" + result +
-                '}';
     }
 
     @Override

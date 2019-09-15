@@ -22,7 +22,7 @@ public class WC {
 
             if(args[0].equals("-x")){//使用图形界面
 
-                window.main(null);
+                window.main();
 
             }else if(args[0].equals("-s")){//判断是否递归处理 -s -a/-l/-w/-c *.txt
                 //获取相应的文件处理对象
@@ -31,7 +31,6 @@ public class WC {
                 RecursiveProcessor recursiveProcessor = new RecursiveProcessor(processor, args[2]);
                 //获取处理的结果集
                 try {
-
                     List<result> resultList = recursiveProcessor.getDisposeResult();
                     for (result result : resultList) {
                         result.showResult();
@@ -43,8 +42,12 @@ public class WC {
             }else{//不是递归处理，证明只有一个参数 支持 -c -w -l -a
                 FileProcessor processor = FileProcessorFactory.getFileProcessorOf(args[0]);
                 try {
-                    result result = processor.disposeFileOf(args[1]);
-                    result.showResult();
+                    if (processor==null){
+                        System.out.println("传入的参数错误!");
+                    }else {
+                        result result = processor.disposeFileOf(args[1]);
+                        result.showResult();
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

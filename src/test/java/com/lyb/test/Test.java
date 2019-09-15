@@ -2,13 +2,12 @@ package com.lyb.test;
 
 import com.lyb.Factory.FileProcessorFactory;
 import com.lyb.bean.result;
+import com.lyb.main.WC;
 import com.lyb.processor.FileProcessor;
 import com.lyb.processor.RecursiveProcessor;
-import com.lyb.util.FileUtils;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -18,57 +17,72 @@ import java.util.List;
  */
 @RunWith(JUnit4.class)
 public class Test {
+    /**
+     * 测试非递归功能
+     * @throws IOException
+     */
+    @org.junit.Test
+    public void testFunction() throws IOException {
+        String[] urls= new String[]{"F:\\file\\a.java","F:\\file\\oo.txt","F:\\file\\"};
+        String[] params= new String[]{"-a","-l","-w","-c"};
 
+        for (String url : urls) {
+            for (String param : params) {
+                testOneProcessor(url,param);
+            }
+        }
+
+    }
+
+     private void testOneProcessor(String url, String param) throws IOException {
+        FileProcessor processor = FileProcessorFactory.getFileProcessorOf(param);
+         result result = processor.disposeFileOf(url);
+         result.showResult();
+     }
+
+/***********************************************/
+
+    /**
+     * 测试递归功能
+     * @throws IOException
+     */
     @org.junit.Test
     public void test() throws IOException {
-        FileProcessor processor = FileProcessorFactory.getFileProcessorOf("-a");
-        System.out.println(processor.disposeFileOf("F:\\a.txt"));
-    }
+        String[] urls= new String[]{"F:\\file\\a.java","F:\\file\\oo.txt","F:\\file\\","F:\\file\\*.txt","F:\\file\\?.txt"};
+        String[] params= new String[]{"-a","-l","-w","-c"};
+        for (String url : urls) {
+            for (String param : params) {
+                testRecursive(url,param);
+            }
+        }
 
-    @org.junit.Test
-    public void testDir(){
-        File file = new File("F:\\");
-        File[] list = file.listFiles();
-        for (File s : list) {
-            System.out.println(s.getAbsolutePath());
+    }
+    private void testRecursive(String url, String param) throws IOException {
+        FileProcessor processor = FileProcessorFactory.getFileProcessorOf(param);
+        RecursiveProcessor processor1 = new RecursiveProcessor(processor, url);
+        List<result> result = processor1.getDisposeResult();
+        for (com.lyb.bean.result result1 : result) {
+            result1.showResult();
         }
     }
 
+    /******************************************/
+    /**
+     * 测试主函数
+     */
     @org.junit.Test
-    public void testFileUtils(){
-        List<String> list = FileUtils.getAllFileUrl(new File("F:\\课程资料"));
-        for (String s : list) {
-            System.out.println(s);
-        }
+    public void testMain(){
+        WC.main(new String[]{"-a","F:\\file\\a.java"});
+        WC.main(new String[]{"-a",null});
+        WC.main(new String[]{"-s","-a","F:\\file\\a.java"});
+        WC.main(new String[]{"-s","-a",null});
     }
 
+    /**
+     * 测试window
+     */
     @org.junit.Test
-    public void testRecursiveFile() throws IOException {
-        FileProcessor processor = FileProcessorFactory.getFileProcessorOf("-a");
-        RecursiveProcessor recursiveProcessor = new RecursiveProcessor(processor, "F:\\file\\?.txt");
-        List<result> disposeResult = recursiveProcessor.getDisposeResult();
-        for (result result : disposeResult) {
-                result.showResult();
-        }
-    }
-
-    @org.junit.Test
-    public void testSub(){
-        String url= "F:\\前端资料\\网页模板资料\\01\\*.java";
-        String substring = url.substring(url.lastIndexOf(File.separatorChar)+1);
-        System.out.println(substring);
-    }
-
-    @org.junit.Test
-    public void testGetAllFileUrlByRegex(){
-        List<String> allFileUrlByRegex = FileUtils.getAllFileUrlByRegex("F:\\file\\?.txt");
-        for (String fileUrlByRegex : allFileUrlByRegex) {
-            System.out.println(fileUrlByRegex);
-        }
-    }
-
-    @org.junit.Test
-    public void testS(){
-        System.out.println(File.separatorChar);
+    public void testWindow(){
+        WC.main(new String[]{"-x"});
     }
 }
