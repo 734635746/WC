@@ -2,7 +2,6 @@ package com.lyb.test;
 
 import com.lyb.Factory.FileProcessorFactory;
 import com.lyb.bean.result;
-import com.lyb.main.WC;
 import com.lyb.processor.FileProcessor;
 import com.lyb.processor.RecursiveProcessor;
 import org.junit.runner.RunWith;
@@ -23,7 +22,7 @@ public class Test {
      */
     @org.junit.Test
     public void testFunction() throws IOException {
-        String[] urls= new String[]{"F:\\file\\a.java","F:\\file\\oo.txt","F:\\file\\"};
+        String[] urls= new String[]{"F:\\file\\a.java","F:\\file\\oo.txt","F:\\file\\",null};
         String[] params= new String[]{"-a","-l","-w","-c"};
 
         for (String url : urls) {
@@ -48,7 +47,7 @@ public class Test {
      */
     @org.junit.Test
     public void test() throws IOException {
-        String[] urls= new String[]{"F:\\file\\a.java","F:\\file\\oo.txt","F:\\file\\","F:\\file\\*.txt","F:\\file\\?.txt"};
+        String[] urls= new String[]{"F:\\file\\a.java","F:\\file\\oo.txt","F:\\file\\","F:\\file\\*.txt","F:\\file\\?.txt",null};
         String[] params= new String[]{"-a","-l","-w","-c"};
         for (String url : urls) {
             for (String param : params) {
@@ -70,19 +69,13 @@ public class Test {
     /**
      * 测试主函数
      */
-    @org.junit.Test
-    public void testMain(){
-        WC.main(new String[]{"-a","F:\\file\\a.java"});
-        WC.main(new String[]{"-a",null});
-        WC.main(new String[]{"-s","-a","F:\\file\\a.java"});
-        WC.main(new String[]{"-s","-a",null});
-    }
+//    @org.junit.Test
+//    public void testMain(){
+//        WC.main(new String[]{"-a","F:\\file\\a.java"});
+//        WC.main(new String[]{"-a",null});
+//        WC.main(new String[]{"-s","-a","F:\\file\\a.java"});
+//        WC.main(new String[]{"-s","-a",null});
+//        WC.main(new String[]{"-s","-pp",null});
+//    }
 
-    /**
-     * 测试window
-     */
-    @org.junit.Test
-    public void testWindow(){
-        WC.main(new String[]{"-x"});
-    }
 }

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FileResult.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">WC</a> &gt; <a href="index.source.html" class="el_package">com.lyb.bean</a> &gt; <span class="el_source">FileResult.java</span></div><h1>FileResult.java</h1><pre class="source lang-java linenums">package com.lyb.bean;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * @author liuyoubin
+ * @date 2019/9/13 - 11:33
+ * 文件处理结果封装类
+ */
+<span class="fc" id="L11">public class FileResult implements result{</span>
+    //文件全路径名称
+    private String fileName;
+    //文件处理集合
+<span class="fc" id="L15">    private List&lt;String&gt; result = new ArrayList&lt;&gt;();</span>
+
+    public FileResult addResult(String fileName, Integer resultNum){
+<span class="fc" id="L18">        this.result.add(fileName+&quot; &quot;+resultNum);</span>
+<span class="fc" id="L19">        return this;</span>
+    }
+
+    public void setFileName(String fileName) {
+<span class="fc" id="L23">        this.fileName = fileName;</span>
+<span class="fc" id="L24">    }</span>
+
+    @Override
+    public void showResult() {
+<span class="fc" id="L28">        System.out.println(fileName);</span>
+<span class="fc bfc" id="L29" title="All 2 branches covered.">        for (String s : result) {</span>
+<span class="fc" id="L30">            System.out.println(s);</span>
+<span class="fc" id="L31">        }</span>
+<span class="fc" id="L32">    }</span>
+
+    @Override
+    public String printfResult() {
+<span class="nc" id="L36">        StringBuffer buffer = new StringBuffer();</span>
+<span class="nc bnc" id="L37" title="All 2 branches missed.">        for (String s : result) {</span>
+<span class="nc" id="L38">            buffer.append(s+&quot;\r\n&quot;);</span>
+<span class="nc" id="L39">        }</span>
+<span class="nc" id="L40">        return buffer.toString();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>

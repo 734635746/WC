@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>WordProcessor.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">WC</a> &gt; <a href="index.source.html" class="el_package">com.lyb.processor</a> &gt; <span class="el_source">WordProcessor.java</span></div><h1>WordProcessor.java</h1><pre class="source lang-java linenums">package com.lyb.processor;
+
+import com.lyb.bean.ErrorResult;
+import com.lyb.bean.FileResult;
+import com.lyb.bean.result;
+import com.lyb.enums.ErrorTypeEnum;
+
+import java.io.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+/**
+ * @author liuyoubin
+ * @date 2019/9/13 - 19:03
+ * 统计文件中的单词数
+ */
+<span class="fc" id="L17">public class WordProcessor implements FileProcessor{</span>
+
+    /**
+     * 实现&quot;-w&quot;操作,统计文件中的单词数
+     * @param fileUrl 文件全路径名
+     * @return 处理结果
+     */
+    @Override
+    public result disposeFileOf(String fileUrl) throws IOException {
+<span class="fc bfc" id="L26" title="All 2 branches covered.">        if(fileUrl==null){//参数错误</span>
+<span class="fc" id="L27">            return  ErrorResult.getErrorResultOf(ErrorTypeEnum.PARAM_ERROR);</span>
+        }
+
+        //创建一个文件对象
+<span class="fc" id="L31">        File file = new File(fileUrl);</span>
+        //单词数
+<span class="fc" id="L33">        int count = 0;</span>
+
+<span class="fc bfc" id="L35" title="All 2 branches covered.">        if(file.isFile()){//文件存在</span>
+            //文件输入流
+<span class="fc" id="L37">            InputStream inputStream = new FileInputStream(file);</span>
+            //转换成缓冲字符流
+<span class="fc" id="L39">            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));</span>
+            String str;
+<span class="fc bfc" id="L41" title="All 2 branches covered.">            while((str = reader.readLine())!=null){</span>
+                //采用正则表达式来统计单词数
+<span class="fc" id="L43">                Pattern p = Pattern.compile(&quot;\\b[a-zA-Z]+\\b&quot;);</span>
+<span class="fc" id="L44">                Matcher m = p.matcher(str);</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">                while(m.find()){</span>
+<span class="fc" id="L46">                    count++;</span>
+                }
+<span class="fc" id="L48">            }</span>
+
+            //关闭流
+<span class="fc" id="L51">            reader.close();</span>
+<span class="fc" id="L52">            inputStream.close();</span>
+
+<span class="fc" id="L54">            FileResult result = new FileResult();</span>
+<span class="fc" id="L55">            result.setFileName(fileUrl);</span>
+<span class="fc" id="L56">            return result.addResult(&quot;单词数:&quot;, count);</span>
+
+        }else{//文件不存在
+<span class="fc" id="L59">            return ErrorResult.getErrorResultOf(ErrorTypeEnum.FILE_NOT_FOUNT);</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>

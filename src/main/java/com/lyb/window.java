@@ -52,7 +52,7 @@ public class window {
         });
     }
 
-    public static void main() {
+    public static void main(String[] args) {
         JFrame frame = new JFrame("统计程序！");
         frame.setLayout(null);
         frame.setSize(650, 500);

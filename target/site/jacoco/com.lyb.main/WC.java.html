@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>WC.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">WC</a> &gt; <a href="index.source.html" class="el_package">com.lyb.main</a> &gt; <span class="el_source">WC.java</span></div><h1>WC.java</h1><pre class="source lang-java linenums">package com.lyb.main;
+
+import com.lyb.Factory.FileProcessorFactory;
+import com.lyb.bean.ErrorResult;
+import com.lyb.bean.result;
+import com.lyb.enums.ErrorTypeEnum;
+import com.lyb.processor.FileProcessor;
+import com.lyb.processor.RecursiveProcessor;
+import com.lyb.window;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Scanner;
+
+/**
+ * 统计程序的入口
+ * @author liuyoubin
+ * @date 2019/9/13 - 11:12
+ */
+<span class="nc" id="L20">public class WC {</span>
+
+    public static void main(String[] args) {
+<span class="nc" id="L23">        System.out.println(&quot;*************欢迎使用java源文件统计函数*************&quot;);</span>
+<span class="nc" id="L24">        System.out.println(&quot;*************通过 【param】【fileName】格式来使用&quot;);</span>
+<span class="nc" id="L25">        System.out.println(&quot;*************关于【param】的说明:&quot;);</span>
+<span class="nc" id="L26">        System.out.println(&quot;*************-a(统计代码行、空行 、 注释行)、-l(统计行数)、-w(统计单词数数)、-c(统计字符数)&quot;);</span>
+<span class="nc" id="L27">        System.out.println(&quot;*************-s 配合以上四个参数使用可以开启递归统计功能，同时支持'*'、'?'通配符使用&quot;);</span>
+<span class="nc" id="L28">        System.out.println(&quot;*************-x 单独使用，开启图形化界面功能&quot;);</span>
+<span class="nc" id="L29">        System.out.println(&quot;*************注意：文件分隔符请使用'\'&quot;);</span>
+<span class="nc" id="L30">        System.out.println(&quot;*************输入'bye'退出程序&quot;);</span>
+        while(true){
+<span class="nc" id="L32">            Scanner scanner = new Scanner(System.in);</span>
+<span class="nc" id="L33">            String str = scanner.nextLine();</span>
+<span class="nc bnc" id="L34" title="All 2 branches missed.">            if(str.equals(&quot;bye&quot;)){</span>
+<span class="nc" id="L35">                System.out.println(&quot;&quot;);</span>
+<span class="nc" id="L36">                break;</span>
+            }
+<span class="nc" id="L38">            String[] split = str.split(&quot; &quot;);</span>
+<span class="nc bnc" id="L39" title="All 2 branches missed.">            if(split[0].equals(&quot;-x&quot;)){//使用图形界面</span>
+
+<span class="nc" id="L41">                window.main(null);</span>
+
+<span class="nc bnc" id="L43" title="All 2 branches missed.">            }else if(split[0].equals(&quot;-s&quot;)){//判断是否递归处理 -s -a/-l/-w/-c *.txt</span>
+                //获取相应的文件处理对象
+<span class="nc" id="L45">                FileProcessor processor = FileProcessorFactory.getFileProcessorOf(split[1]);</span>
+                //递归处理对象
+<span class="nc" id="L47">                RecursiveProcessor recursiveProcessor = new RecursiveProcessor(processor, split[2]);</span>
+                //获取处理的结果集
+                try {
+<span class="nc" id="L50">                    List&lt;result&gt; resultList = recursiveProcessor.getDisposeResult();</span>
+<span class="nc bnc" id="L51" title="All 2 branches missed.">                    for (result result : resultList) {</span>
+<span class="nc" id="L52">                        result.showResult();</span>
+<span class="nc" id="L53">                        System.out.println();</span>
+<span class="nc" id="L54">                    }</span>
+<span class="nc" id="L55">                } catch (IOException e) {</span>
+<span class="nc" id="L56">                    System.out.println( ErrorResult.getErrorResultOf(ErrorTypeEnum.PARAM_ERROR).getMessage());</span>
+<span class="nc" id="L57">                }</span>
+
+<span class="nc" id="L59">            }else{//不是递归处理，证明只有一个参数 支持 -c -w -l -a</span>
+<span class="nc" id="L60">                FileProcessor processor = FileProcessorFactory.getFileProcessorOf(split[0]);</span>
+                try {
+<span class="nc bnc" id="L62" title="All 2 branches missed.">                    if (processor==null){</span>
+<span class="nc" id="L63">                        System.out.println(&quot;传入的参数错误!&quot;);</span>
+                    }else {
+<span class="nc" id="L65">                        result result = processor.disposeFileOf(split[1]);</span>
+<span class="nc" id="L66">                        result.showResult();</span>
+<span class="nc" id="L67">                        System.out.println();</span>
+                    }
+<span class="nc" id="L69">                } catch (IOException e) {</span>
+<span class="nc" id="L70">                    e.printStackTrace();</span>
+<span class="nc" id="L71">                }</span>
+
+
+            }
+<span class="nc" id="L75">        }</span>
+
+
+
+
+<span class="nc" id="L80">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FileUtils.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">WC</a> &gt; <a href="index.source.html" class="el_package">com.lyb.util</a> &gt; <span class="el_source">FileUtils.java</span></div><h1>FileUtils.java</h1><pre class="source lang-java linenums">package com.lyb.util;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Pattern;
+
+/**
+ * @author liuyoubin
+ * @date 2019/9/14 - 13:21
+ * 文件处理工具类
+ */
+<span class="nc" id="L13">public class FileUtils {</span>
+
+    /**
+     * 递归获取指定目录下的所有文件的url
+     * @param file 目录的的File对象
+     * @return
+     */
+    public static List&lt;String&gt; getAllFileUrl(File file) {
+
+<span class="fc" id="L22">        List&lt;String&gt; urlList = new ArrayList&lt;&gt;();</span>
+
+        //获取目录下的所有文件及目录
+<span class="fc" id="L25">        File[] listFiles = file.listFiles();</span>
+
+<span class="fc bfc" id="L27" title="All 2 branches covered.">        for (File listFile : listFiles) {</span>
+<span class="fc bfc" id="L28" title="All 2 branches covered.">            if(listFile.isFile()){</span>
+<span class="fc" id="L29">                urlList.add(listFile.getAbsolutePath());</span>
+            }
+<span class="fc bfc" id="L31" title="All 2 branches covered.">            if(listFile.isDirectory()){</span>
+<span class="fc" id="L32">                urlList.addAll(getAllFileUrl(listFile));</span>
+            }
+        }
+
+<span class="fc" id="L36">        return urlList;</span>
+    }
+
+    /**
+     * 递归匹配通配符获取目录下的所有文件的url
+     * @param url 目录路径
+     * @return
+     */
+    public static List&lt;String&gt; getAllFileUrlByRegex(String url) {//F:/www/aa/*.txt
+        //返回结果集
+<span class="fc" id="L46">        List&lt;String&gt; resultList = new ArrayList&lt;&gt;();</span>
+        //获取目录
+<span class="fc" id="L48">        String dirPath = url.substring(0, url.lastIndexOf(File.separatorChar));</span>
+        //获取要匹配的文件名(包含通配符)
+<span class="fc" id="L50">        String regFileName = url.substring(url.lastIndexOf(File.separatorChar)+1);</span>
+        //模式匹配器
+<span class="fc" id="L52">        Pattern p = Pattern.compile(StrToRegex(regFileName));</span>
+
+        //获取目录下所有文件的url
+<span class="fc" id="L55">        List&lt;String&gt; allFileUrl = getAllFileUrl(new File(dirPath));</span>
+<span class="fc bfc" id="L56" title="All 2 branches covered.">        for (String fileUrl : allFileUrl) {</span>
+            //判断文件名是否匹配
+<span class="fc" id="L58">            boolean b = p.matcher(fileUrl.substring(fileUrl.lastIndexOf(File.separatorChar)+1)).matches();</span>
+<span class="fc bfc" id="L59" title="All 2 branches covered.">            if(b){//匹配</span>
+<span class="fc" id="L60">                resultList.add(fileUrl);</span>
+            }
+<span class="fc" id="L62">        }</span>
+
+<span class="fc" id="L64">        return resultList;</span>
+    }
+
+    /**
+     * 将含有通配符*、?的文件名转成正则表达式
+     * @param regFileName
+     * @return
+     */
+    public static String StrToRegex(String regFileName){
+<span class="fc" id="L73">        regFileName = regFileName.replace(&quot;.&quot;, &quot;&gt;&quot;);</span>
+<span class="fc" id="L74">        regFileName = regFileName.replaceAll(&quot;&gt;&quot;, &quot;\\.&quot;);</span>
+<span class="fc" id="L75">        regFileName = regFileName.replace(&quot;*&quot;, &quot;&gt;&quot;);</span>
+<span class="fc" id="L76">        regFileName = regFileName.replaceAll(&quot;&gt;&quot;, &quot;.*&quot;);</span>
+<span class="fc" id="L77">        regFileName = regFileName.replace(&quot;?&quot;, &quot;&gt;&quot;);</span>
+<span class="fc" id="L78">        regFileName = regFileName.replaceAll(&quot;&gt;&quot;, &quot;.?&quot;);</span>
+<span class="fc" id="L79">        return regFileName;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>

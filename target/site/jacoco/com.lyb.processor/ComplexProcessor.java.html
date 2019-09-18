@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ComplexProcessor.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">WC</a> &gt; <a href="index.source.html" class="el_package">com.lyb.processor</a> &gt; <span class="el_source">ComplexProcessor.java</span></div><h1>ComplexProcessor.java</h1><pre class="source lang-java linenums">package com.lyb.processor;
+
+import com.lyb.bean.ErrorResult;
+import com.lyb.bean.FileResult;
+import com.lyb.bean.result;
+import com.lyb.enums.ErrorTypeEnum;
+
+import java.io.*;
+
+/**
+ * @author liuyoubin
+ * @date 2019/9/13 - 19:28
+ * 统计文件的复杂数据：代码行 / 空行 / 注释行
+ */
+<span class="fc" id="L15">public class ComplexProcessor implements FileProcessor{</span>
+
+    /**
+     * 实现&quot;-a&quot;操作,统计文件的复杂数据：代码行 / 空行 / 注释行
+     * @param fileUrl 文件全路径名
+     * @return 处理结果
+     */
+    @Override
+    public result disposeFileOf(String fileUrl) throws IOException {
+
+<span class="fc bfc" id="L25" title="All 2 branches covered.">        if(fileUrl==null){//参数错误</span>
+<span class="fc" id="L26">            return  ErrorResult.getErrorResultOf(ErrorTypeEnum.PARAM_ERROR);</span>
+        }
+
+<span class="fc" id="L29">        int line=0;//总行数</span>
+<span class="fc" id="L30">        int emptyLine = 0;//空行</span>
+<span class="fc" id="L31">        int codeLine = 0;//代码行</span>
+<span class="fc" id="L32">        int annotationLine=0;//注释行</span>
+<span class="fc" id="L33">        boolean isStart = false;//标记注释块是否开始</span>
+<span class="fc" id="L34">        int startLine = 0;//注释块开始的行数</span>
+
+
+        //创建一个文件对象
+<span class="fc" id="L38">        File file = new File(fileUrl);</span>
+
+<span class="fc bfc" id="L40" title="All 2 branches covered.">        if(file.isFile()){//判断是否为文件</span>
+            //文件输入流
+<span class="fc" id="L42">            InputStream inputStream = new FileInputStream(file);</span>
+            //转换成缓冲字符流
+<span class="fc" id="L44">            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));</span>
+            String str;
+<span class="fc bfc" id="L46" title="All 2 branches covered.">            while((str=reader.readLine())!=null){</span>
+                //读取的行不为空，则总行数加1
+<span class="fc" id="L48">                line++;</span>
+                //将读取的行中的所有空白字符替换掉
+<span class="fc" id="L50">                str = str.replaceAll(&quot;\\s&quot;, &quot;&quot;);</span>
+
+<span class="pc bpc" id="L52" title="1 of 6 branches missed.">                if(str.equals(&quot;&quot;)||str.equals(&quot;{&quot;)||str.equals(&quot;}&quot;)){//判断是否为空行</span>
+<span class="pc bpc" id="L53" title="1 of 4 branches missed.">                    if(str.startsWith(&quot;&quot;)&amp;&amp;(isStart==true)){</span>
+                        //这里是处理注释块中含有空行的情况,注释块开始时的空行是注释行，在这里不计入空行
+<span class="fc" id="L55">                       continue;</span>
+                    }
+<span class="fc" id="L57">                    emptyLine++;</span>
+<span class="pc bpc" id="L58" title="2 of 6 branches missed.">                }else if (str.startsWith(&quot;//&quot;)||str.startsWith(&quot;}//&quot;)||str.startsWith(&quot;{//&quot;)){</span>
+                    //判断是否为注释行,这里主要是判断单行注释
+<span class="fc" id="L60">                    annotationLine++;</span>
+<span class="fc bfc" id="L61" title="All 2 branches covered.">                }else if(str.startsWith(&quot;/*&quot;)){//判断注释块,注释块开始</span>
+                    /**
+                     /*
+                     * 注释块(相当于5行注释)
+
+                     */
+<span class="fc" id="L67">                    isStart=true;//注释块开始</span>
+<span class="pc bpc" id="L68" title="2 of 4 branches missed.">                    if(line&gt;startLine&amp;&amp;startLine==0){//这里是为了防止注释块里行有“/*”影响判断</span>
+<span class="fc" id="L69">                        startLine = line;</span>
+                    }
+<span class="fc bfc" id="L71" title="All 2 branches covered.">                }else if(str.startsWith(&quot;*/&quot;)){//注释块结束</span>
+<span class="fc" id="L72">                        annotationLine += line - startLine+1;</span>
+                        //结束后重置标志
+<span class="fc" id="L74">                        isStart=false;</span>
+<span class="fc" id="L75">                        startLine=0;</span>
+                }
+
+            }
+            //代码行等于总行数-注释行-空行
+<span class="fc" id="L80">            codeLine = line-annotationLine-emptyLine;</span>
+
+            //关闭流
+<span class="fc" id="L83">            reader.close();</span>
+<span class="fc" id="L84">            inputStream.close();</span>
+
+<span class="fc" id="L86">            FileResult result = new FileResult();</span>
+<span class="fc" id="L87">            result.setFileName(fileUrl);</span>
+<span class="fc" id="L88">            result.addResult(&quot;总行数:&quot;, line);</span>
+<span class="fc" id="L89">            result.addResult(&quot;代码行数:&quot;, codeLine);</span>
+<span class="fc" id="L90">            result.addResult(&quot;注释行数:&quot;, annotationLine);</span>
+<span class="fc" id="L91">            result.addResult(&quot;空行数:&quot;, emptyLine);</span>
+
+<span class="fc" id="L93">            return result;</span>
+        }else{//文件不存在
+<span class="fc" id="L95">            return ErrorResult.getErrorResultOf(ErrorTypeEnum.FILE_NOT_FOUNT);</span>
+        }
+
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>
